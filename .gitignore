@@ -16,7 +16,7 @@ build/
 dist-ssr/
 
 # Local environment files
-.env*
+.env
 .DS_Store
 .vscode/
 !.vscode/extensions.json

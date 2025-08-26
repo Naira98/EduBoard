@@ -1,10 +1,17 @@
-import { Document, Schema, model } from "mongoose";
+import { Document, Schema, Types, model } from "mongoose";
+
+export enum UserRole {
+  Student = "student",
+  Professor = "professor",
+  Manager = "manager",
+}
 
 interface IUser extends Document {
+  _id: Types.ObjectId;
   username: string;
   email: string;
   password: string;
-  role: "student" | "professor" | "manager";
+  role: UserRole;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -22,6 +29,7 @@ const userSchema = new Schema<IUser>(
       unique: true,
       lowercase: true,
       trim: true,
+      match: [/\S+@\S+\.\S+/, "Please use a valid email address"],
     },
     password: {
       type: String,
@@ -29,7 +37,7 @@ const userSchema = new Schema<IUser>(
     },
     role: {
       type: String,
-      enum: ["student", "professor", "manager"],
+      enum: Object.values(UserRole),
       required: true,
     },
   },

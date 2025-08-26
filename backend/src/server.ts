@@ -1,12 +1,15 @@
-import express from "express";
 import cors from "cors";
+import express from "express";
 import mongoose from "mongoose";
 import { MONGO_URI, PORT } from "./config/config";
+import authRouter from "./routers/auth";
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+app.use("/api/auth", authRouter);
 
 startServer();
 
@@ -16,7 +19,7 @@ async function startServer() {
     console.log("Connected to MongoDB");
 
     app.listen(PORT, () => {
-      console.log(`Server running on port${PORT}`);
+      console.log(`Server running on port ${PORT}`);
     });
   } catch (error) {
     console.error("Database connection failed:", error);
