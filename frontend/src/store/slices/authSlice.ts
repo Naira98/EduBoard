@@ -60,7 +60,7 @@ export const loginUser = createAsyncThunk(
     } catch (error) {
       return getErrorMessage(error);
     }
-  },
+  }
 );
 
 export const registerUser = createAsyncThunk(
@@ -79,7 +79,7 @@ export const registerUser = createAsyncThunk(
     } catch (error) {
       return getErrorMessage(error);
     }
-  },
+  }
 );
 
 export const logoutUser = createAsyncThunk(
@@ -93,7 +93,7 @@ export const logoutUser = createAsyncThunk(
           await apiReq("POST", "/auth/logout", { refreshToken });
         } catch (error) {
           console.warn(
-            "Logout API call failed, but proceeding with local logout" + error,
+            "Logout API call failed, but proceeding with local logout" + error
           );
         }
       }
@@ -103,11 +103,11 @@ export const logoutUser = createAsyncThunk(
     } finally {
       clearTokens();
     }
-  },
+  }
 );
 
-export const checkAuthStatus = createAsyncThunk(
-  "auth/checkStatus",
+export const getUser = createAsyncThunk(
+  "auth/me",
   async (_, { rejectWithValue }) => {
     try {
       const { accessToken } = getTokens();
@@ -141,7 +141,7 @@ export const checkAuthStatus = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(getErrorMessage(error));
     }
-  },
+  }
 );
 
 const authSlice = createSlice({
@@ -206,16 +206,16 @@ const authSlice = createSlice({
         state.error = action.payload as string;
       })
       // Check auth status
-      .addCase(checkAuthStatus.pending, (state) => {
+      .addCase(getUser.pending, (state) => {
         state.loading = true;
       })
-      .addCase(checkAuthStatus.fulfilled, (state, action) => {
+      .addCase(getUser.fulfilled, (state, action) => {
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.error = null;
       })
-      .addCase(checkAuthStatus.rejected, (state, action) => {
+      .addCase(getUser.rejected, (state, action) => {
         state.loading = false;
         state.isAuthenticated = false;
         state.user = null;

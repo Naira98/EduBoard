@@ -34,6 +34,7 @@ const userSchema = new Schema<IUser>(
     password: {
       type: String,
       required: true,
+      minLength: [6, "Password must be at least 6 characters long."],
     },
     role: {
       type: String,

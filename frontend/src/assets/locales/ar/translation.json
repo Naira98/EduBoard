@@ -1,0 +1,21 @@
+{
+  "signInTitle": "تسجيل الدخول",
+  "signInButtonText": "تسجيل الدخول",
+  "signUpLinkText": "إنشاء حساب",
+  "signUpLinkDescription": "ليس لديك حساب؟",
+  "emailLabel": "البريد الإلكتروني",
+  "passwordLabel": "كلمة المرور",
+  "usernameLabel": "اسم المستخدم",
+  "confirmPasswordLabel": "تأكيد كلمة المرور",
+  "createAccountTitle": "إنشاء حساب",
+  "signUpButtonText": "إنشاء حساب",
+  "signInLinkText": "تسجيل الدخول",
+  "signInLinkDescription": "لديك حساب بالفعل؟",
+  "emailRequired": "البريد الإلكتروني مطلوب",
+  "invalidEmail": "صيغة البريد الإلكتروني غير صحيحة",
+  "passwordRequired": "كلمة المرور مطلوبة",
+  "passwordLength": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+  "usernameRequired": "اسم المستخدم مطلوب",
+  "confirmPasswordRequired": "يرجى تأكيد كلمة المرور",
+  "passwordsMismatch": "كلمات المرور غير متطابقة"
+}

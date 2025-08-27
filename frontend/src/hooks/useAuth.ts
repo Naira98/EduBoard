@@ -2,39 +2,39 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../store/index";
 import {
+  clearError,
+  getUser,
   loginUser,
   logoutUser,
   registerUser,
-  checkAuthStatus,
-  clearError,
 } from "../store/slices/authSlice";
 
 export const useAuth = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user, isAuthenticated, loading, error } = useSelector(
-    (state: RootState) => state.auth,
+    (state: RootState) => state.auth
   );
 
   const login = useCallback(
     (credentials: { email: string; password: string }) => {
       return dispatch(loginUser(credentials));
     },
-    [dispatch],
+    [dispatch]
   );
 
   const register = useCallback(
     (userData: { username: string; email: string; password: string }) => {
       return dispatch(registerUser(userData));
     },
-    [dispatch],
+    [dispatch]
   );
 
   const logout = useCallback(() => {
     return dispatch(logoutUser());
   }, [dispatch]);
 
-  const checkAuth = useCallback(() => {
-    return dispatch(checkAuthStatus());
+  const getMe = useCallback(() => {
+    return dispatch(getUser());
   }, [dispatch]);
 
   const resetError = useCallback(() => {
@@ -49,7 +49,7 @@ export const useAuth = () => {
     login,
     register,
     logout,
-    checkAuth,
+    getMe,
     resetError,
   };
 };

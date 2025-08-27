@@ -1,0 +1,21 @@
+{
+  "signInTitle": "Sign In",
+  "signInButtonText": "Sign In",
+  "signUpLinkText": "Sign Up",
+  "signUpLinkDescription": "Don't have an account?",
+  "emailLabel": "Email Address",
+  "passwordLabel": "Password",
+  "usernameLabel": "Username",
+  "confirmPasswordLabel": "Confirm Password",
+  "createAccountTitle": "Create Account",
+  "signUpButtonText": "Sign Up",
+  "signInLinkText": "Sign In",
+  "signInLinkDescription": "Already have an account?",
+  "emailRequired": "Email is required",
+  "invalidEmail": "Invalid email address",
+  "passwordRequired": "Password is required",
+  "passwordLength": "Password must be at least 6 characters",
+  "usernameRequired": "Username is required",
+  "confirmPasswordRequired": "Please confirm your password",
+  "passwordsMismatch": "Passwords do not match"
+}
