@@ -12,6 +12,7 @@ interface IUser extends Document {
   email: string;
   password: string;
   role: UserRole;
+  semester: Types.ObjectId | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -40,6 +41,11 @@ const userSchema = new Schema<IUser>(
       type: String,
       enum: Object.values(UserRole),
       required: true,
+    },
+    semester: {
+      type: Schema.Types.ObjectId,
+      ref: "Semester",
+      default: null,
     },
   },
   {
