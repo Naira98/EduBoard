@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import { MONGO_URI, PORT } from "./config/config";
 import authRouter from "./routers/auth";
+import semesterRouter from "./routers/semester";
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/auth", authRouter);
+app.use("/api/semester", semesterRouter);
 
 startServer();
 
