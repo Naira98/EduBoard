@@ -10,6 +10,17 @@ import {
   generateRefreshToken,
 } from "../utils/generateJWT";
 
+export const getMeController = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user?.userId);
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  res.status(200).json({
+    username: user.username,
+    email: user.email,
+    role: user.role,
+  });
+});
+
 export const registerController = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -62,7 +73,11 @@ export const loginController = asyncHandler(async (req, res) => {
     await newToken.save();
   }
 
-  res.status(200).json({ accessToken, refreshToken });
+  res.status(200).json({
+    accessToken,
+    refreshToken,
+    user: { id: user._id, username: user.username, role: user.role },
+  });
 });
 
 export const refreshController = asyncHandler(async (req, res) => {

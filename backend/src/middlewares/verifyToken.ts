@@ -9,12 +9,10 @@ export const verifyToken = (
   next: NextFunction
 ) => {
   try {
-    console.log("VERIFYING TOKEN STARTED");
     let token = req.header("Authorization");
     if (!token) return res.status(401).json({ message: "Unauthorized" });
 
     if (token.startsWith("Bearer ")) token = token.split(" ")[1];
-    console.log("VERIFYING TOKEN DONE");
 
     const payload = jwt.verify(token, ACCESS_SECRET) as ITokenPayload;
     req.user = payload;

@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getMeController,
   loginController,
   logoutController,
   refreshController,
@@ -8,6 +9,8 @@ import {
 import { verifyToken } from "../middlewares/verifyToken";
 
 const router = express.Router();
+
+router.get("/me", verifyToken, getMeController);
 
 router.post("/register", registerController);
 
