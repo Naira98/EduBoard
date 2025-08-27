@@ -9,7 +9,7 @@ const router = express.Router();
 router.post(
   "/",
   verifyToken,
-  requireRole(UserRole.Student),
+  requireRole([UserRole.Student]),
   enrollStudentController
 );
 

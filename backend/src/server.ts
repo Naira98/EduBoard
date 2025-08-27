@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
 import { MONGO_URI, PORT } from "./config/config";
+import announcementsRouter from "./routers/announcements";
 import authRouter from "./routers/auth";
 import enrollmentsRouter from "./routers/enrollments";
 import semesterRouter from "./routers/semester";
@@ -14,6 +15,7 @@ app.use(cors());
 app.use("/api/auth", authRouter);
 app.use("/api/semester", semesterRouter);
 app.use("/api/enrollment", enrollmentsRouter);
+app.use("/api/announcements", announcementsRouter);
 
 startServer();
 

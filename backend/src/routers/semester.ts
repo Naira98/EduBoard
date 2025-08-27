@@ -1,8 +1,8 @@
 import express from "express";
 import {
-    createSemesterController,
-    getSemestersController,
-    updateSemesterController,
+  createSemesterController,
+  getSemestersController,
+  updateSemesterController,
 } from "../controllers/semester";
 import { requireRole } from "../middlewares/requireRole";
 import { verifyToken } from "../middlewares/verifyToken";
@@ -15,14 +15,14 @@ router.get("/", verifyToken, getSemestersController);
 router.post(
   "/",
   verifyToken,
-  requireRole(UserRole.Manager),
+  requireRole([UserRole.Manager]),
   createSemesterController
 );
 
 router.patch(
   "/:id",
   verifyToken,
-  requireRole(UserRole.Manager),
+  requireRole([UserRole.Manager]),
   updateSemesterController
 );
 

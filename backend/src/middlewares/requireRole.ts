@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { UserRole } from "../models/user";
 
-export const requireRole = (role: UserRole) => {
+export const requireRole = (roles: UserRole[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    if (req.user && req.user.role === role) {
+    if (req.user && roles.includes(req.user.role)) {
       next();
     } else {
       res.status(403).json({

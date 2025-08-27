@@ -18,6 +18,7 @@ export const verifyToken = (
     req.user = payload;
     next();
   } catch (error) {
+    console.log(error);
     return res.status(401).json({ message: "Unauthorized" });
   }
 };
