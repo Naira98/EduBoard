@@ -4,6 +4,7 @@ import { useLayoutEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { useAnnouncement } from "../hooks/useAnnouncement";
+import { formatDate } from "../utils/formatDate";
 
 const AnnouncementDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -102,26 +103,31 @@ const AnnouncementDetailPage = () => {
         </Typography>
 
         <Typography component="div" variant="body2" sx={{ mb: 0.5 }}>
-            <Box component="span" sx={{ fontWeight: 'medium' }}>Semester:</Box> {currentAnnouncement.semester?.name || 'N/A'}
-          </Typography>
-          <Typography component="div" variant="body2" sx={{ mb: 0.5 }}>
-            <Box component="span" sx={{ fontWeight: 'medium' }}>Author:</Box> {currentAnnouncement.author?.username || 'N/A'} (Role:{" "}
-            {currentAnnouncement.author?.role || "N/A"})
-          </Typography>
+          <Box component="span" sx={{ fontWeight: "medium" }}>
+            Semester:
+          </Box>{" "}
+          {currentAnnouncement.semester?.name || "N/A"}
+        </Typography>
+        <Typography component="div" variant="body2" sx={{ mb: 0.5 }}>
+          <Box component="span" sx={{ fontWeight: "medium" }}>
+            Author:
+          </Box>{" "}
+          {currentAnnouncement.author?.username || "N/A"} (Role:{" "}
+          {currentAnnouncement.author?.role || "N/A"})
+        </Typography>
         <Typography
           variant="caption"
           display="block"
           sx={{ mt: 4, textAlign: "right", color: "text.disabled" }}
         >
-          Posted On: {new Date(currentAnnouncement.createdAt).toLocaleString()}
+          Posted On: {formatDate(currentAnnouncement.createdAt)}
         </Typography>
         <Typography
           variant="caption"
           display="block"
           sx={{ textAlign: "right", color: "text.disabled" }}
         >
-          Last Updated:{" "}
-          {new Date(currentAnnouncement.updatedAt).toLocaleString()}
+          Last Updated: {formatDate(currentAnnouncement.updatedAt)}
         </Typography>
       </Paper>
     </Container>

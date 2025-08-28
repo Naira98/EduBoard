@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import type { Announcement } from "../types/Announcement";
+import { formatDate } from "../utils/formatDate";
 
 const AnnouncementCard = ({ announcement }: { announcement: Announcement }) => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const AnnouncementCard = ({ announcement }: { announcement: Announcement }) => {
           <Box component="span" sx={{ fontWeight: "medium" }}>
             Date:
           </Box>{" "}
-          {new Date(announcement.createdAt).toLocaleDateString()}
+          {formatDate(announcement.createdAt)}
         </Typography>
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}>

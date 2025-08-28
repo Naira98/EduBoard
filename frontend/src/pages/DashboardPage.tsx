@@ -67,6 +67,15 @@ const DashboardPage = () => {
       (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
     );
 
+  const latestAnnouncements = [...announcements]
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+    .slice(0, 2);
+
+  const limitedUpcomingQuizzes = upcomingQuizzes.slice(0, 2);
+
   return (
     <Container maxWidth="lg" sx={{ mt: 0, mb: 4, pt: 0, pb: 0 }}>
       {/* Hero Section */}
@@ -143,7 +152,7 @@ const DashboardPage = () => {
               Latest Announcements
             </Typography>
           </Box>
-          {announcements.length === 0 ? (
+          {latestAnnouncements.length === 0 ? (
             <Paper
               elevation={1}
               sx={{ p: 3, textAlign: "center", borderRadius: 2 }}
@@ -154,18 +163,12 @@ const DashboardPage = () => {
             </Paper>
           ) : (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-              {[...announcements]
-                .sort(
-                  (a, b) =>
-                    new Date(b.createdAt).getTime() -
-                    new Date(a.createdAt).getTime()
-                )
-                .map((announcement) => (
-                  <AnnouncementCard
-                    key={announcement._id}
-                    announcement={announcement}
-                  />
-                ))}
+              {latestAnnouncements.map((announcement) => (
+                <AnnouncementCard
+                  key={announcement._id}
+                  announcement={announcement}
+                />
+              ))}
             </Box>
           )}
         </Box>
@@ -202,7 +205,7 @@ const DashboardPage = () => {
                 Upcoming Quizzes
               </Typography>
             </Box>
-            {upcomingQuizzes.length === 0 ? (
+            {limitedUpcomingQuizzes.length === 0 ? (
               <Paper
                 elevation={1}
                 sx={{ p: 3, textAlign: "center", borderRadius: 2 }}
@@ -213,7 +216,7 @@ const DashboardPage = () => {
               </Paper>
             ) : (
               <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                {upcomingQuizzes.map((quiz) => (
+                {limitedUpcomingQuizzes.map((quiz) => (
                   <QuizCard key={quiz._id} quiz={quiz} />
                 ))}
               </Box>

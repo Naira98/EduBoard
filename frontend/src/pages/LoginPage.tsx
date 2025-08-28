@@ -6,6 +6,7 @@ import AuthForm from "../components/AuthForm";
 import { getLoginConfig } from "../config/formConfigs";
 import { useAuth } from "../hooks/useAuth";
 import type { FormValues } from "../types/formTypes";
+import i18next from "i18next";
 
 const LoginPage = () => {
   const [error, setError] = useState<string>("");
@@ -27,6 +28,7 @@ const LoginPage = () => {
         toast(error.message, { type: "error" });
       } else {
         setError("");
+        i18next.changeLanguage("en");
         navigate("/");
       }
     } catch (err: unknown) {

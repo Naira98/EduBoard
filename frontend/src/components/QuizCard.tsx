@@ -1,3 +1,4 @@
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import {
   Box,
@@ -6,30 +7,38 @@ import {
   CardActions,
   CardContent,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import type { Grade } from "../types/Grade";
+import type { Quiz } from "../types/Quiz";
+import { formatDate } from "../utils/formatDate";
 
-interface Quiz {
-  _id: string;
-  title: string;
-  dueDate: string;
-  course: { _id: string; name: string } | null;
-  creator: { _id: string; username: string } | null;
+interface QuizCardProps {
+  quiz: Quiz;
+  studentGrade?: Grade;
 }
 
-const QuizCard = ({ quiz }: { quiz: Quiz }) => {
+const QuizCard = ({ quiz, studentGrade }: QuizCardProps) => {
   const navigate = useNavigate();
-
-  const handleStartQuiz = () => {
-    navigate(`/quiz/start/${quiz._id}`);
-  };
+  const theme = useTheme();
 
   const isDueDatePassed = new Date(quiz.dueDate) < new Date();
+  const hasSubmitted = !!studentGrade;
+
+  const handleActionButtonClick = () => {
+    if (hasSubmitted) {
+      console.log(`Viewing score for quiz: ${quiz.title}`);
+    } else {
+      navigate(`/quiz/start/${quiz._id}`);
+    }
+  };
 
   return (
     <Card
       elevation={3}
       sx={{
+        width: "100%",
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -56,7 +65,7 @@ const QuizCard = ({ quiz }: { quiz: Quiz }) => {
           <Box component="span" sx={{ fontWeight: "medium" }}>
             Due Date:
           </Box>{" "}
-          {new Date(quiz.dueDate).toLocaleDateString()}
+          {formatDate(quiz.dueDate)}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           <Box component="span" sx={{ fontWeight: "medium" }}>
@@ -64,19 +73,57 @@ const QuizCard = ({ quiz }: { quiz: Quiz }) => {
           </Box>{" "}
           {quiz.creator?.username || "N/A"}
         </Typography>
+
+        {hasSubmitted && studentGrade && (
+          <Box
+            sx={{
+              mt: 2,
+              p: 1,
+              bgcolor: theme.palette.success.light + "40",
+              borderRadius: 1,
+              display: "flex",
+              alignItems: "center",
+              border: `1px solid ${theme.palette.success.main}`,
+            }}
+          >
+            <CheckCircleIcon
+              sx={{ mr: 1, color: theme.palette.success.main }}
+            />
+            <Typography
+              variant="body1"
+              sx={{ fontWeight: "bold", color: theme.palette.success.dark }}
+            >
+              Score: {studentGrade.score} / {studentGrade.totalQuestions} (
+              {(
+                (studentGrade.score / studentGrade.totalQuestions) *
+                100
+              ).toFixed(0)}
+              %)
+            </Typography>
+          </Box>
+        )}
       </CardContent>
-      <CardActions
-        sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}
-      >
+      <CardActions sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}>
         <Button
           size="small"
           variant="contained"
-          onClick={handleStartQuiz}
-          startIcon={<PlayArrowIcon />}
-          disabled={isDueDatePassed}
-          sx={{ borderRadius: 2 }}
+          onClick={handleActionButtonClick}
+          startIcon={hasSubmitted ? <CheckCircleIcon /> : <PlayArrowIcon />}
+          disabled={hasSubmitted || isDueDatePassed}
+          sx={{
+            borderRadius: 2,
+            "&.Mui-disabled": {
+              bgcolor: theme.palette.grey[400],
+              color: theme.palette.grey[600],
+              cursor: "not-allowed",
+            },
+          }}
         >
-          {isDueDatePassed ? "Past Due" : "Start Quiz"}
+          {hasSubmitted
+            ? "Quiz Submitted"
+            : isDueDatePassed
+            ? "Past Due"
+            : "Start Quiz"}
         </Button>
       </CardActions>
     </Card>

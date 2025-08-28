@@ -1,18 +1,19 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
-    Alert,
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Container,
-    Typography,
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Typography,
 } from "@mui/material";
 import { useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { useGrade } from "../hooks/useGrade";
 import type { Grade } from "../types/Grade";
+import { formatDate } from "../utils/formatDate";
 
 
 const MyGradesPage = () => {
@@ -152,7 +153,7 @@ const MyGradesPage = () => {
                   display="block"
                   sx={{ mt: 2, textAlign: "right", color: "text.disabled" }}
                 >
-                  Submitted On: {new Date(grade.submittedAt).toLocaleString()}
+                  Submitted On: {formatDate(grade.submittedAt)}
                 </Typography>
               </CardContent>
             </Card>

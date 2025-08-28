@@ -14,6 +14,8 @@ import MyGradesPage from "./pages/MyGradesPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import QuizPage from "./pages/QuizPage";
 import RegisterPage from "./pages/RegisterPage";
+import StudentAnnouncementsPage from "./pages/StudentAnnouncementsPage";
+import StudentQuizzesPage from "./pages/StudentQuizzesPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import CustomThemeProvider from "./theme/ThemeProvider";
 import { UserRole } from "./types/Auth";
@@ -49,6 +51,8 @@ const App = () => {
               />
               <Route path="/quiz/start/:quizId" element={<QuizPage />} />
               <Route path="/my-grades" element={<MyGradesPage />} />
+              <Route path="/quizzes" element={<StudentQuizzesPage />} />
+              <Route path="/announcements" element={<StudentAnnouncementsPage />} />
             </Route>
           </Route>
 
