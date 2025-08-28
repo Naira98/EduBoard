@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { ITokenPayload } from "../../types/Token";
 import { REFRESH_SECRET } from "../config/config";
 import { asyncHandler } from "../middlewares/asyncHandler";
+import { Semester } from "../models/semester";
 import { Token } from "../models/tokens";
 import { User } from "../models/user";
 import {
@@ -22,7 +23,13 @@ export const getMeController = asyncHandler(async (req, res) => {
 });
 
 export const registerController = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, semesterId } = req.body;
+
+  if (!username || !email || !password) {
+    return res
+      .status(400)
+      .json({ message: "Please provide username, email and password." });
+  }
 
   if (password.length < 6) {
     return res
@@ -37,6 +44,17 @@ export const registerController = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
   if (user) return res.status(409).json({ message: "Email already exists" });
 
+  // TODO: Add check it's a student not a manager making account for professor
+  if (!semesterId) {
+    return res.status(400).json({
+      message: "Students must be assigned to a semester during registration.",
+    });
+  }
+  const semesterExists = await Semester.findById(semesterId);
+  if (!semesterExists) {
+    return res.status(404).json({ message: "Provided semester not found." });
+  }
+
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -45,6 +63,7 @@ export const registerController = asyncHandler(async (req, res) => {
     email,
     password: hashedPassword,
     role: "student",
+    semester: semesterId,
   });
   await newUser.save();
 
