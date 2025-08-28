@@ -27,7 +27,7 @@ const LoginPage = () => {
         toast(error.message, { type: "error" });
       } else {
         setError("");
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Login failed");

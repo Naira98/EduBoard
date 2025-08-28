@@ -54,16 +54,7 @@ export const getAllAnnouncementsController = asyncHandler(async (req, res) => {
       if (!studentUser || !studentUser.semester) {
         return res.status(200).json([]);
       }
-      const studentSemesterId = studentUser.semester.toString();
-
-      if (semesterId) {
-        if (semesterId !== studentSemesterId) {
-          return res.status(403).json({
-            message: "Forbidden: You are not assigned to this semester.",
-          });
-        }
-      }
-      query.semester = semesterId;
+      query.semester = studentUser.semester.toString();
       break;
 
     case UserRole.Professor:
@@ -109,13 +100,12 @@ export const getAnnouncementByIdController = asyncHandler(async (req, res) => {
   if (!announcement) {
     return res.status(404).json({ message: "Announcement not found." });
   }
-
   if (userRole === UserRole.Student) {
     const studentUser = await User.findById(userId);
     if (
       !studentUser ||
       !studentUser.semester ||
-      studentUser.semester.toString() !== announcement.semester.toString()
+      studentUser.semester.toString() !== announcement.semester._id.toString()
     ) {
       return res.status(403).json({
         message:

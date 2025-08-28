@@ -3,8 +3,10 @@ import { useTranslation } from "react-i18next";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
+import AppLayout from "./components/AppLayout";
 import GuestOnlyRoute from "./components/authorization/GusetOnlyRoutes";
 import RoleBasedRoute from "./components/authorization/RoleBasedRoutes";
+import AnnouncementDetailPage from "./pages/AnnouncementDetailPage";
 import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -34,7 +36,13 @@ const App = () => {
 
           {/* Students-Only routes */}
           <Route element={<RoleBasedRoute allowedRoles={[UserRole.student]} />}>
-            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/" element={<AppLayout />}>
+              <Route index element={<DashboardPage />} />
+              <Route
+                path="announcements/:id"
+                element={<AnnouncementDetailPage />}
+              />
+            </Route>
           </Route>
 
           {/* Professors-Only routes */}

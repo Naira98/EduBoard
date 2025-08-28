@@ -155,9 +155,10 @@ export const getAllQuizzesController = asyncHandler(async (req, res) => {
   }
 
   const quizzes = await Quiz.find(query)
-    .populate("course", "name professor")
+    .populate("course", "name")
     .populate("semester", "name")
-    .populate("creator", "username email role")
+    .populate("creator", "username")
+    .select("title dueDate")
     .sort({ dueDate: 1 });
 
   res.status(200).json(quizzes);
@@ -168,10 +169,15 @@ export const getQuizByIdController = asyncHandler(async (req, res) => {
   const userId = req.user?.userId;
   const userRole = req.user?.role;
 
-  const quiz = await Quiz.findById(id)
+  let quizBuilder = Quiz.findById(id)
     .populate("course", "name professor")
     .populate("semester", "name")
     .populate("creator", "username email role");
+
+  if (userRole == UserRole.Student)
+    quizBuilder = quizBuilder.select("-questions.correctAnswer");
+
+  const quiz = await quizBuilder;
 
   if (!quiz) {
     return res.status(404).json({ message: "Quiz not found." });
@@ -182,7 +188,7 @@ export const getQuizByIdController = asyncHandler(async (req, res) => {
     if (
       !studentUser ||
       !studentUser.semester ||
-      studentUser.semester.toString() !== quiz.semester.toString()
+      studentUser.semester.toString() !== quiz.semester._id.toString()
     ) {
       return res.status(403).json({
         message:

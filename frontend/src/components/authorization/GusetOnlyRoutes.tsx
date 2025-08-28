@@ -18,7 +18,7 @@ export default function GuestOnlyRoute() {
 
   if (loading) return <Spinner />;
 
-  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
+  if (isAuthenticated) return <Navigate to="/" replace />;
 
   return <Outlet />;
 }
