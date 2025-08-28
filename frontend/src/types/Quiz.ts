@@ -1,4 +1,4 @@
-interface Question {
+export interface Question {
   _id?: string;
   questionText: string;
   options: string[];
@@ -37,4 +37,9 @@ export interface UpdateQuizData {
 export interface GetAllQuizzesParams {
   semesterId?: string;
   courseId?: string;
+}
+
+export interface IStudentQuizSubmission {
+  questionText: string;
+  selectedOption: string;
 }

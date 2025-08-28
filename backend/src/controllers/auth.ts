@@ -76,11 +76,11 @@ export const loginController = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  if (!user) return res.status(404).json({ message: "User not found" });
+  if (!user) return res.status(404).json({ message: "Invalid Credentials" });
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid)
-    return res.status(401).json({ message: "Invalid password" });
+    return res.status(401).json({ message: "Invalid Credentials" });
 
   const accessToken = generateAccessToken(user._id, user.role);
   const refreshToken = generateRefreshToken(user._id, user.role);

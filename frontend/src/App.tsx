@@ -11,6 +11,7 @@ import AnnouncementDetailPage from "./pages/AnnouncementDetailPage";
 import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import QuizPage from "./pages/QuizPage";
 import RegisterPage from "./pages/RegisterPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import CustomThemeProvider from "./theme/ThemeProvider";
@@ -45,6 +46,7 @@ const App = () => {
                 path="announcements/:id"
                 element={<AnnouncementDetailPage />}
               />
+              <Route path="quiz/start/:quizId" element={<QuizPage />} />
             </Route>
           </Route>
 

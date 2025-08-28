@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import announcementSlice from "./slices/announcementSlice";
 import authSlice from "./slices/authSlice";
+import gradeSlice from "./slices/gradeSlice";
 import quizSlice from "./slices/quizSlice";
 import semesterSlice from "./slices/semesterSlice";
 
@@ -10,6 +11,7 @@ export const store = configureStore({
     semester: semesterSlice,
     quiz: quizSlice,
     announcement: announcementSlice,
+    grades: gradeSlice,
   },
 });
 
