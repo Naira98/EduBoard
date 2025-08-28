@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/auth", authRouter);
-app.use("/api/semester", semesterRouter);
+app.use("/api/semesters", semesterRouter);
 app.use("/api/announcements", announcementsRouter);
 app.use("/api/courses", coursesRouter);
 app.use("/api/quizzes", quizzesRouter);

@@ -1,7 +1,7 @@
 export enum UserRole {
   student = "student",
   professor = "professor",
-  manager = "manager", 
+  manager = "manager",
 }
 
 export interface User {
@@ -18,6 +18,7 @@ export interface RegisterData {
   username: string;
   email: string;
   password: string;
+  semesterId: string;
 }
 export interface TokenPayload {
   userId: string;
@@ -31,6 +32,7 @@ export interface LoginResponse {
   user: {
     id: string;
     username: string;
-    role:UserRole
+    email: string;
+    role: UserRole;
   };
 }

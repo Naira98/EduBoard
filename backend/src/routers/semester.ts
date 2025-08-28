@@ -10,7 +10,7 @@ import { UserRole } from "../models/user";
 
 const router = express.Router();
 
-router.get("/", verifyToken, getSemestersController);
+router.get("/", getSemestersController);
 
 router.post(
   "/",

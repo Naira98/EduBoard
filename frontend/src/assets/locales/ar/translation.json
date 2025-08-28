@@ -17,5 +17,7 @@
   "passwordLength": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
   "usernameRequired": "اسم المستخدم مطلوب",
   "confirmPasswordRequired": "يرجى تأكيد كلمة المرور",
-  "passwordsMismatch": "كلمات المرور غير متطابقة"
+  "passwordsMismatch": "كلمات المرور غير متطابقة",
+  "semesterLabel": "الفصل الدراسي",
+  "semesterRequired": "الرجاء اختيار فصل دراسي"
 }

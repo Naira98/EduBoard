@@ -1,6 +1,9 @@
-import { Box, InputAdornment, TextField } from "@mui/material";
+import { Box, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { useField } from "react-final-form";
-import type { FormField as FormFieldType } from "../types/formTypes";
+import type {
+  FormField as FormFieldType,
+  SelectFormField,
+} from "../types/formTypes";
 
 interface FormFieldProps {
   field: FormFieldType;
@@ -23,6 +26,10 @@ const FormField = ({ field }: FormFieldProps) => {
 
   const showError = (touched && error) || (submitError && !touched);
 
+  const isSelectField = (field: FormFieldType): field is SelectFormField => {
+    return field.type === "select";
+  };
+
   return (
     <Box
       sx={{
@@ -30,25 +37,54 @@ const FormField = ({ field }: FormFieldProps) => {
         padding: 1,
       }}
     >
-      <TextField
-        {...input}
-        fullWidth
-        label={field.label}
-        type={field.type}
-        required={field.required}
-        autoComplete={field.autoComplete}
-        autoFocus={field.autoFocus}
-        error={!!showError}
-        helperText={showError ? error || submitError : ""}
-        InputProps={{
-          startAdornment: field.startIcon ? (
-            <InputAdornment position="start">{field.startIcon}</InputAdornment>
-          ) : undefined,
-          endAdornment: field.endIcon ? (
-            <InputAdornment position="end">{field.endIcon}</InputAdornment>
-          ) : undefined,
-        }}
-      />
+      {isSelectField(field) ? (
+        <FormControl fullWidth required={field.required} error={!!showError}>
+          <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
+          <Select
+            labelId={`${field.name}-label`}
+            {...input}
+            label={field.label}
+            fullWidth
+            error={!!showError}
+          >
+            <MenuItem value="">
+              <em>{field.label}</em>
+            </MenuItem>
+            {field.options.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </Select>
+          {showError && (
+            <Box sx={{ color: "error.main", fontSize: "0.75rem", mt: 0.5 }}>
+              {error || submitError}
+            </Box>
+          )}
+        </FormControl>
+      ) : (
+        <TextField
+          {...input}
+          fullWidth
+          label={field.label}
+          type={field.type}
+          required={field.required}
+          autoComplete={field.autoComplete}
+          autoFocus={field.autoFocus}
+          error={!!showError}
+          helperText={showError ? error || submitError : ""}
+          InputProps={{
+            startAdornment: field.startIcon ? (
+              <InputAdornment position="start">
+                {field.startIcon}
+              </InputAdornment>
+            ) : undefined,
+            endAdornment: field.endIcon ? (
+              <InputAdornment position="end">{field.endIcon}</InputAdornment>
+            ) : undefined,
+          }}
+        />
+      )}
     </Box>
   );
 };

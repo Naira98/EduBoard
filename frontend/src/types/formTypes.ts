@@ -6,7 +6,7 @@ export type FieldValidator<T> = (
   meta?: { form?: string; field?: string }
 ) => string | undefined;
 
-export interface FormField {
+interface BaseFormField {
   name: string;
   label: string;
   type: "text" | "email" | "password" | "number" | "tel" | "url";
@@ -21,6 +21,18 @@ export interface FormField {
     sm: number;
   };
 }
+
+export interface SelectOption {
+  value: string;
+  label: string;
+}
+
+export interface SelectFormField extends Omit<BaseFormField, "type"> {
+  type: "select";
+  options: SelectOption[];
+}
+
+export type FormField = BaseFormField | SelectFormField;
 
 export interface FormConfig {
   fields: FormField[];

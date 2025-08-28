@@ -17,5 +17,7 @@
   "passwordLength": "Password must be at least 6 characters",
   "usernameRequired": "Username is required",
   "confirmPasswordRequired": "Please confirm your password",
-  "passwordsMismatch": "Passwords do not match"
+  "passwordsMismatch": "Passwords do not match",
+  "semesterLabel": "Semester",
+  "semesterRequired": "Please select a semester"
 }

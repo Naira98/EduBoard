@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import AuthForm from "../components/AuthForm";
 import { getLoginConfig } from "../config/formConfigs";
 import { useAuth } from "../hooks/useAuth";
@@ -20,9 +21,14 @@ const LoginPage = () => {
       if (!email || !password)
         throw new Error("Email and password are required");
 
-      login({ email, password });
-      setError("");
-      navigate("/dashboard");
+      const result = await login({ email, password });
+      if (result.type.endsWith("rejected")) {
+        const error = result.payload as { message: string };
+        toast(error.message, { type: "error" });
+      } else {
+        setError("");
+        navigate("/dashboard");
+      }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Login failed");
     }

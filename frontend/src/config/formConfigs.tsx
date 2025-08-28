@@ -14,7 +14,6 @@ export const getLoginConfig = (t: TFunction): FormConfig => ({
       type: "email",
       required: true,
       autoComplete: "email",
-      autoFocus: true,
       validation: (value: string) => {
         if (!value) return t("emailRequired");
         if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
@@ -39,7 +38,10 @@ export const getLoginConfig = (t: TFunction): FormConfig => ({
   ],
 });
 
-export const getRegisterConfig = (t: TFunction): FormConfig => ({
+export const getRegisterConfig = (
+  t: TFunction,
+  availableSemesters: { id: string; name: string }[] = []
+): FormConfig => ({
   title: t("createAccountTitle"),
   submitButtonText: t("signUpButtonText"),
   linkText: t("signInLinkText"),
@@ -52,7 +54,6 @@ export const getRegisterConfig = (t: TFunction): FormConfig => ({
       type: "text",
       required: true,
       autoComplete: "given-name",
-      autoFocus: true,
       validation: (value: string) => {
         if (!value) return t("usernameRequired");
         return undefined;
@@ -99,6 +100,21 @@ export const getRegisterConfig = (t: TFunction): FormConfig => ({
         return undefined;
       },
       gridSize: { xs: 12, sm: 6 },
+    },
+    {
+      name: "semesterId",
+      label: t("semesterLabel"),
+      type: "select",
+      required: true,
+      options: availableSemesters.map((semester) => ({
+        value: semester.id,
+        label: semester.name,
+      })),
+      validation: (value: string) => {
+        if (!value) return t("semesterRequired");
+        return undefined;
+      },
+      gridSize: { xs: 12, sm: 12 },
     },
   ],
 });

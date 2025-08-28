@@ -23,7 +23,12 @@ export const useAuth = () => {
   );
 
   const register = useCallback(
-    (userData: { username: string; email: string; password: string }) => {
+    (userData: {
+      username: string;
+      email: string;
+      password: string;
+      semesterId: string;
+    }) => {
       return dispatch(registerUser(userData));
     },
     [dispatch]

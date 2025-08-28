@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 import GuestOnlyRoute from "./components/authorization/GusetOnlyRoutes";
 import RoleBasedRoute from "./components/authorization/RoleBasedRoutes";
+import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -11,7 +13,6 @@ import UnauthorizedPage from "./pages/UnauthorizedPage";
 import CustomThemeProvider from "./theme/ThemeProvider";
 import { UserRole } from "./types/Auth";
 import "./utils/lang";
-import DashboardPage from "./pages/DashboardPage";
 
 const App = () => {
   const { t, i18n } = useTranslation();
@@ -50,6 +51,19 @@ const App = () => {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </CustomThemeProvider>
   );
 };

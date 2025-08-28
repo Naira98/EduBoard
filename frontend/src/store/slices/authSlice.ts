@@ -30,57 +30,48 @@ const initialState: AuthState = {
   error: null,
 };
 
-export const loginUser = createAsyncThunk(
+export const loginUser = createAsyncThunk<LoginResponse, LoginCredentials>(
   "auth/login",
-  async (credentials: LoginCredentials) => {
+  async (credentials: LoginCredentials, { rejectWithValue }) => {
     try {
       const response = await publicApiReq("POST", "/auth/login", credentials);
 
       if (!response.ok) {
         const errorData = await response.json();
-        return errorData.message;
+        console.log(rejectWithValue(errorData))
+        return rejectWithValue(errorData);
       }
 
       const data: LoginResponse = await response.json();
 
       setTokens(data.accessToken, data.refreshToken);
 
-      return {
-        user: {
-          id: data.user.id,
-          username: data.user.username,
-          email: credentials.email,
-          role: data.user.role,
-        },
-        tokens: {
-          accessToken: data.accessToken,
-          refreshToken: data.refreshToken,
-        },
-      };
+      return data;
     } catch (error) {
-      return getErrorMessage(error);
+      return rejectWithValue(error);
     }
   }
 );
 
-export const registerUser = createAsyncThunk(
-  "auth/register",
-  async (userData: RegisterData) => {
-    try {
-      const response = await publicApiReq("POST", "/auth/register", userData);
+export const registerUser = createAsyncThunk<
+  { message: string; userId: string },
+  RegisterData,
+  { rejectValue: string }
+>("auth/register", async (userData: RegisterData, { rejectWithValue }) => {
+  try {
+    const response = await publicApiReq("POST", "/auth/register", userData);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        return getErrorMessage(errorData);
-      }
-
-      const data = await response.json();
-      return { message: data.message, userId: data.id };
-    } catch (error) {
-      return getErrorMessage(error);
+    if (!response.ok) {
+      const errorData = await response.json();
+      return rejectWithValue(errorData);
     }
+
+    const data: { message: string; id: string } = await response.json();
+    return { message: data.message, userId: data.id };
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error));
   }
-);
+});
 
 export const logoutUser = createAsyncThunk(
   "auth/logout",
@@ -99,7 +90,7 @@ export const logoutUser = createAsyncThunk(
       }
       return true;
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(error);
     } finally {
       clearTokens();
     }
@@ -139,7 +130,7 @@ export const getUser = createAsyncThunk(
         },
       };
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(error);
     }
   }
 );
