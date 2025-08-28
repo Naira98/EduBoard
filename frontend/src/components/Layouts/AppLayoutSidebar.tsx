@@ -22,12 +22,12 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import logo from "../assets/logo.png";
-import { useAuth } from "../hooks/useAuth";
+import logo from "../../assets/logo.png";
+import { useAuth } from "../../hooks/useAuth";
 
 const drawerWidth = 240;
 
-const AppLayout = () => {
+const AppLayoutSidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, logout } = useAuth();
 
@@ -268,4 +268,4 @@ const AppLayout = () => {
   );
 };
 
-export default AppLayout;
+export default AppLayoutSidebar;

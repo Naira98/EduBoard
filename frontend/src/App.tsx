@@ -3,7 +3,8 @@ import { useTranslation } from "react-i18next";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
-import AppLayout from "./components/AppLayout";
+import AppLayoutNavbar from "./components/Layouts/AppLayoutNavbar";
+import AppLayoutSidebar from "./components/Layouts/AppLayoutSidebar";
 import GuestOnlyRoute from "./components/authorization/GusetOnlyRoutes";
 import RoleBasedRoute from "./components/authorization/RoleBasedRoutes";
 import AnnouncementDetailPage from "./pages/AnnouncementDetailPage";
@@ -30,13 +31,15 @@ const App = () => {
         <Routes>
           {/* Guest-Only routes */}
           <Route element={<GuestOnlyRoute />}>
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route element={<AppLayoutNavbar />}>
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/login" element={<LoginPage />} />
+            </Route>
           </Route>
 
           {/* Students-Only routes */}
           <Route element={<RoleBasedRoute allowedRoles={[UserRole.student]} />}>
-            <Route path="/" element={<AppLayout />}>
+            <Route path="/" element={<AppLayoutSidebar />}>
               <Route index element={<DashboardPage />} />
               <Route
                 path="announcements/:id"
