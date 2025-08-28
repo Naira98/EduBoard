@@ -48,7 +48,7 @@ const AppLayoutSidebar = () => {
       icon: <AnnouncementIcon />,
       path: "/announcements",
     },
-    { text: "My Grades", icon: <GradeIcon />, path: "/grades" },
+    { text: "My Grades", icon: <GradeIcon />, path: "/my-grades" },
   ];
 
   const drawer = (

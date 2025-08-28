@@ -90,7 +90,7 @@ const QuizPage = () => {
     return (
       <Box sx={{ p: 4 }}>
         <Alert severity="info">You have already submitted this quiz.</Alert>
-        <Button onClick={() => navigate("/grades")} sx={{ mt: 2 }}>
+        <Button onClick={() => navigate("/my-grades")} sx={{ mt: 2 }}>
           Go to Your Grades
         </Button>
       </Box>
@@ -174,7 +174,7 @@ const QuizPage = () => {
       try {
         await submit({ quizId, answers: submissionAnswers }).unwrap();
         setHasSubmitted(true);
-        navigate("/grades");
+        navigate("/my-grades");
       } catch (submissionError) {
         toast(`Failed to submit quiz: ${submissionError}`, { type: "error" });
       }

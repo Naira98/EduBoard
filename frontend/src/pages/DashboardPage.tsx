@@ -1,18 +1,13 @@
 import AnnouncementIcon from "@mui/icons-material/Announcement";
 import QuizIcon from "@mui/icons-material/Quiz";
-import {
-  Alert,
-  Box,
-  Container,
-  Paper,
-  Typography
-} from "@mui/material";
+import { Alert, Box, Container, Paper, Typography } from "@mui/material";
 import { useLayoutEffect } from "react";
 import hero from "../assets/hero.png";
 import AnnouncementCard from "../components/AnnouncementCard";
 import QuizCard from "../components/QuizCard";
 import Spinner from "../components/Spinner";
 import { useAnnouncement } from "../hooks/useAnnouncement";
+import { useGrade } from "../hooks/useGrade";
 import { useQuiz } from "../hooks/useQuiz";
 
 const DashboardPage = () => {
@@ -28,14 +23,22 @@ const DashboardPage = () => {
     error: announcementsError,
     fetchAll: fetchAllAnnouncements,
   } = useAnnouncement();
+  const {
+    myGrades,
+    loading: gradesLoading,
+    error: gradesError,
+    fetchAll: fetchMyGrades,
+  } = useGrade();
 
   useLayoutEffect(() => {
     fetchAllQuizzes();
     fetchAllAnnouncements();
-  }, [fetchAllQuizzes, fetchAllAnnouncements]);
+    fetchMyGrades();
+  }, [fetchAllQuizzes, fetchAllAnnouncements, fetchMyGrades]);
 
-  const overallLoading = quizzesLoading || announcementsLoading;
-  const overallError = quizzesError || announcementsError;
+  const overallLoading =
+    quizzesLoading || announcementsLoading || gradesLoading;
+  const overallError = quizzesError || announcementsError || gradesError;
 
   if (overallLoading) {
     return <Spinner />;
@@ -50,6 +53,19 @@ const DashboardPage = () => {
       </Container>
     );
   }
+
+  const submittedQuizIds = new Set(
+    myGrades.map((grade) =>
+      typeof grade.quiz === "string" ? grade.quiz : grade.quiz._id
+    )
+  );
+
+  const upcomingQuizzes = [...quizzes]
+    .filter((quiz) => new Date(quiz.dueDate) >= new Date())
+    .filter((quiz) => !submittedQuizIds.has(quiz._id))
+    .sort(
+      (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
+    );
 
   return (
     <Container maxWidth="lg" sx={{ mt: 0, mb: 4, pt: 0, pb: 0 }}>
@@ -186,7 +202,7 @@ const DashboardPage = () => {
                 Upcoming Quizzes
               </Typography>
             </Box>
-            {quizzes.length === 0 ? (
+            {upcomingQuizzes.length === 0 ? (
               <Paper
                 elevation={1}
                 sx={{ p: 3, textAlign: "center", borderRadius: 2 }}
@@ -197,16 +213,9 @@ const DashboardPage = () => {
               </Paper>
             ) : (
               <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                {[...quizzes]
-                  .filter((quiz) => new Date(quiz.dueDate) >= new Date())
-                  .sort(
-                    (a, b) =>
-                      new Date(a.dueDate).getTime() -
-                      new Date(b.dueDate).getTime()
-                  )
-                  .map((quiz) => (
-                    <QuizCard key={quiz._id} quiz={quiz} />
-                  ))}
+                {upcomingQuizzes.map((quiz) => (
+                  <QuizCard key={quiz._id} quiz={quiz} />
+                ))}
               </Box>
             )}
           </Box>

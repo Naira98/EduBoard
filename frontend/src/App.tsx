@@ -10,6 +10,7 @@ import RoleBasedRoute from "./components/authorization/RoleBasedRoutes";
 import AnnouncementDetailPage from "./pages/AnnouncementDetailPage";
 import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
+import MyGradesPage from "./pages/MyGradesPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import QuizPage from "./pages/QuizPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -43,10 +44,11 @@ const App = () => {
             <Route path="/" element={<AppLayoutSidebar />}>
               <Route index element={<DashboardPage />} />
               <Route
-                path="announcements/:id"
+                path="/announcements/:id"
                 element={<AnnouncementDetailPage />}
               />
-              <Route path="quiz/start/:quizId" element={<QuizPage />} />
+              <Route path="/quiz/start/:quizId" element={<QuizPage />} />
+              <Route path="/my-grades" element={<MyGradesPage />} />
             </Route>
           </Route>
 
