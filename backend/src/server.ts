@@ -4,6 +4,9 @@ import mongoose from "mongoose";
 import { MONGO_URI, PORT } from "./config/config";
 import announcementsRouter from "./routers/announcements";
 import authRouter from "./routers/auth";
+import coursesRouter from "./routers/courses";
+import gradesRouter from "./routers/grades";
+import quizzesRouter from "./routers/quizzes";
 import semesterRouter from "./routers/semester";
 
 const app = express();
@@ -14,6 +17,9 @@ app.use(cors());
 app.use("/api/auth", authRouter);
 app.use("/api/semester", semesterRouter);
 app.use("/api/announcements", announcementsRouter);
+app.use("/api/courses", coursesRouter);
+app.use("/api/quizzes", quizzesRouter);
+app.use("/api/grades", gradesRouter);
 
 startServer();
 

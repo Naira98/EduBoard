@@ -1,14 +1,14 @@
 import express from "express";
-import { requireRole } from "../middlewares/requireRole";
-import { UserRole } from "../models/user";
-import { verifyToken } from "../middlewares/verifyToken";
 import {
-  createAnnouncementController,
-  deleteAnnouncementController,
-  getAllAnnouncementsController,
-  getAnnouncementByIdController,
-  updateAnnouncementController,
-} from "../controllers/announcements";
+  createQuizController,
+  deleteQuizController,
+  getAllQuizzesController,
+  getQuizByIdController,
+  updateQuizController,
+} from "../controllers/quizzes";
+import { requireRole } from "../middlewares/requireRole";
+import { verifyToken } from "../middlewares/verifyToken";
+import { UserRole } from "../models/user";
 
 const router = express.Router();
 
@@ -16,24 +16,24 @@ router.post(
   "/",
   verifyToken,
   requireRole([UserRole.Manager, UserRole.Professor]),
-  createAnnouncementController
+  createQuizController
 );
 
 router.put(
   "/:id",
   verifyToken,
   requireRole([UserRole.Manager, UserRole.Professor]),
-  updateAnnouncementController
+  updateQuizController
 );
 
 router.delete(
   "/:id",
   verifyToken,
   requireRole([UserRole.Manager, UserRole.Professor]),
-  deleteAnnouncementController
+  deleteQuizController
 );
 
-router.get("/", verifyToken, getAllAnnouncementsController);
-router.get("/:id", verifyToken, getAnnouncementByIdController);
+router.get("/", verifyToken, getAllQuizzesController);
+router.get("/:id", verifyToken, getQuizByIdController);
 
 export default router;

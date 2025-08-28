@@ -12,6 +12,7 @@ interface IQuiz extends Document {
   questions: IQuestion[];
   course: Types.ObjectId;
   semester: Types.ObjectId;
+  creator: Types.ObjectId;
   createAt: Date;
   updateAt: Date;
 }
@@ -29,6 +30,7 @@ const quizSchema = new Schema<IQuiz>(
     questions: [{ type: questionSchema, required: true }],
     course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
     semester: { type: Schema.Types.ObjectId, ref: "Semester", required: true },
+    creator: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
   {
     timestamps: true,

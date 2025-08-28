@@ -16,6 +16,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon -e ts,tsx,js,jsx,json -x node --import tsx ./src/server.ts",
+    "seed": "tsx ./src/seed.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
