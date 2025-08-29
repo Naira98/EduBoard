@@ -1,11 +1,11 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
-  Typography,
+  DialogTitle
 } from "@mui/material";
 
 interface ConfirmationModalProps {
@@ -36,15 +36,40 @@ const ConfirmationModal = ({
       maxWidth="xs"
       fullWidth
     >
-      <DialogTitle id="confirmation-dialog-title">
-        <Typography variant="h6" color="primary" sx={{ fontWeight: "bold" }}>
+      <DialogTitle
+        id="confirmation-dialog-title"
+        sx={{
+          p: 3,
+          pb: 2,
+        }}
+      >
+        <Box
+          component="span"
+          sx={{
+            fontWeight: "bold",
+            fontSize: "1.25rem",
+            lineHeight: 1.6,
+            color: "primary.main",
+            display: "block",
+          }}
+          data-testid="confirmation-title"
+        >
           {title}
-        </Typography>
+        </Box>
       </DialogTitle>
-      <DialogContent dividers>
-        {" "}
-        <DialogContentText id="confirmation-dialog-description">
-          <Typography variant="body1">{message}</Typography>
+      <DialogContent dividers sx={{ p: 3 }}>
+        <DialogContentText
+          id="confirmation-dialog-description"
+          component="div"
+          sx={{ m: 0 }}
+        >
+          <Box
+            component="div"
+            sx={{ lineHeight: 1.5 }}
+            data-testid="confirmation-message"
+          >
+            {message}
+          </Box>
         </DialogContentText>
       </DialogContent>
       <DialogActions sx={{ p: 2, justifyContent: "space-between" }}>
@@ -53,6 +78,7 @@ const ConfirmationModal = ({
           variant="outlined"
           color="secondary"
           sx={{ borderRadius: 2 }}
+          data-testid="cancel-button"
         >
           {cancelText}
         </Button>
@@ -62,6 +88,7 @@ const ConfirmationModal = ({
           color="primary"
           autoFocus
           sx={{ borderRadius: 2 }}
+          data-testid="confirm-button"
         >
           {confirmText}
         </Button>

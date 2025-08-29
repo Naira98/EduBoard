@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "moduleResolution": "node",
+    "types": ["jest", "@testing-library/jest-dom", "node"],
+    "allowJs": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "src",
+    "jest.config.mjs",
+    "jest.setup.ts",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "__mocks__"
+  ],
+  "exclude": ["node_modules", "dist"]
+}
