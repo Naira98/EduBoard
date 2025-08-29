@@ -135,7 +135,7 @@ export const loginController = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  if (!user) return res.status(404).json({ message: "Invalid Credentials" });
+  if (!user) return res.status(401).json({ message: "Invalid Credentials" });
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid)

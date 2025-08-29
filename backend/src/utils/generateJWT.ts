@@ -12,7 +12,7 @@ export const generateAccessToken = (
     userId: id.toString(),
     role,
   };
-  return jwt.sign(payload, ACCESS_SECRET, { expiresIn: "5m" });
+  return jwt.sign(payload, ACCESS_SECRET, { expiresIn: "15m" });
 };
 
 export const generateRefreshToken = (id: Types.ObjectId, role: UserRole) => {
