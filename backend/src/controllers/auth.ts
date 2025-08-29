@@ -3,9 +3,10 @@ import jwt from "jsonwebtoken";
 import { ITokenPayload } from "../../types/Token";
 import { REFRESH_SECRET } from "../config/config";
 import { asyncHandler } from "../middlewares/asyncHandler";
+import { Course } from "../models/course";
 import { Semester } from "../models/semester";
 import { Token } from "../models/tokens";
-import { User } from "../models/user";
+import { User, UserRole } from "../models/user";
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -24,7 +25,8 @@ export const getMeController = asyncHandler(async (req, res) => {
 });
 
 export const registerController = asyncHandler(async (req, res) => {
-  const { username, email, password, semesterId } = req.body;
+  const { username, email, password, role, semesterId, courseIds } = req.body;
+  const managerMakingRequest = req.user;
 
   if (!username || !email || !password) {
     return res
@@ -45,32 +47,88 @@ export const registerController = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
   if (user) return res.status(409).json({ message: "Email already exists" });
 
-  // TODO: Add check it's a student not a manager making account for professor
-  if (!semesterId) {
-    return res.status(400).json({
-      message: "Students must be assigned to a semester during registration.",
-    });
-  }
-  const semesterExists = await Semester.findById(semesterId);
-  if (!semesterExists) {
-    return res.status(404).json({ message: "Provided semester not found." });
-  }
-
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
+
+  let newUserRole: UserRole = UserRole.Student;
+  let newSemesterId = semesterId;
+  let newCourseIds: string[] = [];
+
+  if (managerMakingRequest && managerMakingRequest.role === UserRole.Manager) {
+    if (role && Object.values(UserRole).includes(role)) {
+      newUserRole = role;
+    } else {
+      return res.status(400).json({
+        message: "Manager must specify a valid role for the new user.",
+      });
+    }
+
+    if (newUserRole === UserRole.Professor) {
+      newSemesterId = undefined;
+
+      if (courseIds && Array.isArray(courseIds) && courseIds.length > 0) {
+        const validCourses = await Course.find({ _id: { $in: courseIds } });
+        if (validCourses.length !== courseIds.length) {
+          return res.status(400).json({
+            message:
+              "One or more provided course IDs for the professor are invalid.",
+          });
+        }
+        newCourseIds = courseIds;
+      }
+    } else if (newUserRole === UserRole.Student) {
+      if (!semesterId) {
+        return res.status(400).json({
+          message:
+            "Students must be assigned to a semester during registration.",
+        });
+      }
+      const semesterExists = await Semester.findById(semesterId);
+      if (!semesterExists) {
+        return res
+          .status(404)
+          .json({ message: "Provided semester not found." });
+      }
+      newCourseIds = [];
+    } else if (newUserRole === UserRole.Manager) {
+      newSemesterId = undefined;
+      newCourseIds = [];
+    }
+  } else {
+    newUserRole = UserRole.Student;
+    if (!semesterId) {
+      return res.status(400).json({
+        message: "Students must be assigned to a semester during registration.",
+      });
+    }
+    const semesterExists = await Semester.findById(semesterId);
+    if (!semesterExists) {
+      return res.status(404).json({ message: "Provided semester not found." });
+    }
+    newCourseIds = [];
+  }
 
   const newUser = new User({
     username,
     email,
     password: hashedPassword,
-    role: "student",
-    semester: semesterId,
+    role: newUserRole,
+    semester: newSemesterId,
   });
   await newUser.save();
 
-  res
-    .status(201)
-    .json({ message: "User created successfully", id: newUser._id });
+  if (newUserRole === UserRole.Professor && newCourseIds.length > 0) {
+    await Course.updateMany(
+      { _id: { $in: newCourseIds } },
+      { $addToSet: { professors: newUser._id } }
+    );
+  }
+
+  res.status(201).json({
+    message: "User created successfully",
+    id: newUser._id,
+    role: newUser.role,
+  });
 });
 
 export const loginController = asyncHandler(async (req, res) => {
