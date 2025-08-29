@@ -88,19 +88,17 @@ const QuizCard = ({ quiz, studentGrade, viewerRole }: QuizCardProps) => {
             sx={{
               mt: 2,
               p: 1,
-              bgcolor: theme.palette.success.light + "40",
+              bgcolor: "#0d948826",
               borderRadius: 1,
               display: "flex",
               alignItems: "center",
-              border: `1px solid ${theme.palette.success.main}`,
+              border: `1px solid #0d9488`,
             }}
           >
-            <CheckCircleIcon
-              sx={{ mr: 1, color: theme.palette.success.main }}
-            />
+            <CheckCircleIcon sx={{ mr: 1, color: "#0d9488" }} />
             <Typography
               variant="body1"
-              sx={{ fontWeight: "bold", color: theme.palette.success.dark }}
+              sx={{ fontWeight: "bold", color: "#0d9488" }}
             >
               Score: {studentGrade.score} / {studentGrade.totalQuestions} (
               {(

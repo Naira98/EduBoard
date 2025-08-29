@@ -1,5 +1,5 @@
 import LogoutIcon from "@mui/icons-material/Logout";
-import PersonIcon from "@mui/icons-material/Person";
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import {
   Box,
   Divider,
@@ -122,7 +122,7 @@ const Sidebar = ({
               <ListItemIcon
                 sx={{ minWidth: "unset", mr: 1, color: "text.secondary" }}
               >
-                <PersonIcon fontSize="large" />
+                <PermIdentityIcon fontSize="large" />
               </ListItemIcon>
               <Box>
                 <Typography
