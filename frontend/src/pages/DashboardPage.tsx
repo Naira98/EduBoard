@@ -168,6 +168,7 @@ const DashboardPage = () => {
                 <AnnouncementCard
                   key={announcement._id}
                   announcement={announcement}
+                  viewerRole={UserRole.student}
                 />
               ))}
             </Box>

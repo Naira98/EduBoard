@@ -162,7 +162,6 @@ const CreateQuizPage: React.FC = () => {
       toast("Authentication error: User not logged in or role not defined.", {
         type: "error",
       });
-
       return;
     }
 

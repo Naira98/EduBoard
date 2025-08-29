@@ -9,11 +9,13 @@ import ProfessorLayoutSidbar from "./components/Layouts/ProfessorLayoutSidebar";
 import GuestOnlyRoute from "./components/authorization/GusetOnlyRoutes";
 import RoleBasedRoute from "./components/authorization/RoleBasedRoutes";
 import AnnouncementDetailPage from "./pages/AnnouncementDetailPage";
+import CreateAnnouncementPage from "./pages/CreateAnnouncementPage";
 import CreateQuizPage from "./pages/CreateQuizPage";
 import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 import MyGradesPage from "./pages/MyGradesPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import ProfessorAnnouncementsPage from "./pages/ProfessorAnnouncementsPage";
 import ProfessorCoursesPage from "./pages/ProfessorCoursesPage";
 import ProfessorQuizSubmissionsPage from "./pages/ProfessorQuizSubmissionPage";
 import ProfessorQuizzesPage from "./pages/ProfessorQuizzesPage";
@@ -85,8 +87,15 @@ const App = () => {
                 path="/professor/quizzes/:quizId/submissions"
                 element={<ProfessorQuizSubmissionsPage />}
               />
-              {/* <Route path="/professor/announcements" element={} />
-              <Route path="/professor/grades" element={} /> */}
+              <Route
+                path="/professor/announcements"
+                element={<ProfessorAnnouncementsPage />}
+              />
+              <Route
+                path="/professor/announcements/new"
+                element={<CreateAnnouncementPage />}
+              />
+              {/* <Route path="/professor/grades" element={} /> */}
             </Route>
           </Route>
 

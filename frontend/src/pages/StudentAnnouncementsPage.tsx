@@ -1,15 +1,16 @@
-import React, { useLayoutEffect } from "react";
 import {
-  Box,
-  Typography,
   Alert,
+  Box,
   Container,
   Paper,
+  Typography,
   useTheme,
 } from "@mui/material";
-import { useAnnouncement } from "../hooks/useAnnouncement";
-import Spinner from "../components/Spinner";
+import React, { useLayoutEffect } from "react";
 import AnnouncementCard from "../components/AnnouncementCard";
+import Spinner from "../components/Spinner";
+import { useAnnouncement } from "../hooks/useAnnouncement";
+import { UserRole } from "../types/Auth";
 
 const StudentAnnouncementsPage: React.FC = () => {
   const theme = useTheme();
@@ -85,7 +86,10 @@ const StudentAnnouncementsPage: React.FC = () => {
                 display: "flex",
               }}
             >
-              <AnnouncementCard announcement={announcement} />
+              <AnnouncementCard
+                announcement={announcement}
+                viewerRole={UserRole.student}
+              />
             </Box>
           ))}
         </Box>
