@@ -5,9 +5,11 @@ import { ToastContainer } from "react-toastify";
 import "./App.css";
 import AppLayoutNavbar from "./components/Layouts/AppLayoutNavbar";
 import AppLayoutSidebar from "./components/Layouts/AppLayoutSidebar";
+import ManagerLayoutSidebar from "./components/Layouts/ManagerLayoutSidebar";
 import ProfessorLayoutSidbar from "./components/Layouts/ProfessorLayoutSidebar";
 import GuestOnlyRoute from "./components/authorization/GusetOnlyRoutes";
 import RoleBasedRoute from "./components/authorization/RoleBasedRoutes";
+import AddUsersPage from "./pages/AddUserPage";
 import AnnouncementDetailPage from "./pages/AnnouncementDetailPage";
 import CreateAnnouncementPage from "./pages/CreateAnnouncementPage";
 import CreateQuizPage from "./pages/CreateQuizPage";
@@ -95,14 +97,39 @@ const App = () => {
                 path="/professor/announcements/new"
                 element={<CreateAnnouncementPage />}
               />
-              {/* <Route path="/professor/grades" element={} /> */}
             </Route>
           </Route>
 
           {/* Managers-Only routes */}
-          <Route
-            element={<RoleBasedRoute allowedRoles={[UserRole.manager]} />}
-          ></Route>
+          <Route element={<RoleBasedRoute allowedRoles={[UserRole.manager]} />}>
+            <Route element={<ManagerLayoutSidebar />}>
+              <Route path="/manager/add-users" element={<AddUsersPage />} />
+              <Route
+                path="/manager/courses"
+                element={<ProfessorCoursesPage />}
+              />
+              <Route
+                path="/manager/quizzes"
+                element={<ProfessorQuizzesPage />}
+              />
+              <Route
+                path="/manager/quizzes/new"
+                element={<CreateQuizPage />}
+              />
+              <Route
+                path="/manager/quizzes/:quizId/submissions"
+                element={<ProfessorQuizSubmissionsPage />}
+              />
+              <Route
+                path="/manager/announcements"
+                element={<ProfessorAnnouncementsPage />}
+              />
+              <Route
+                path="/manager/announcements/new"
+                element={<CreateAnnouncementPage />}
+              />
+            </Route>
+          </Route>
 
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route path="*" element={<NotFoundPage />} />

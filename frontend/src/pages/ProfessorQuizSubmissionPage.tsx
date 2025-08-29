@@ -13,7 +13,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React, { useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { useGrade } from "../hooks/useGrade";
@@ -21,7 +21,7 @@ import { useQuiz } from "../hooks/useQuiz";
 import type { GradeSubmission } from "../types/Grade";
 import { fromatDateTime } from "../utils/formatDate";
 
-const ProfessorQuizSubmissionsPage: React.FC = () => {
+const ProfessorQuizSubmissionsPage = () => {
   const { quizId } = useParams<{ quizId: string }>();
   const navigate = useNavigate();
   const {

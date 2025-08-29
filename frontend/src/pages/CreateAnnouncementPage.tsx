@@ -1,5 +1,4 @@
-// src/pages/CreateAnnouncementPage.tsx
-import React, { useState, useLayoutEffect, useCallback } from "react";
+import { useState, useLayoutEffect, useCallback } from "react";
 import {
   Box,
   Typography,
@@ -106,7 +105,13 @@ const CreateAnnouncementPage = () => {
       await createAnnouncement(announcementData).unwrap();
 
       toast("Announcement created successfully!", { type: "success" });
-      navigate("/professor/announcements");
+      navigate(
+        `${
+          user.role === UserRole.professor
+            ? "/professor/announcements"
+            : "/manager/announcements"
+        }`
+      );
     } catch (err) {
       toast(`Failed to create announcement: ${err || "Unknown error"}`, {
         type: "error",
@@ -131,17 +136,6 @@ const CreateAnnouncementPage = () => {
         >
           Go Back
         </Button>
-      </Container>
-    );
-  }
-
-  if (!user || user.role !== UserRole.professor) {
-    return (
-      <Container maxWidth="md" sx={{ mt: 4 }}>
-        <Alert severity="warning">
-          Access Denied: You must be logged in as a professor to create
-          announcements.
-        </Alert>
       </Container>
     );
   }

@@ -6,13 +6,13 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import React, { useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import AnnouncementCard from "../components/AnnouncementCard";
 import Spinner from "../components/Spinner";
 import { useAnnouncement } from "../hooks/useAnnouncement";
 import { UserRole } from "../types/Auth";
 
-const StudentAnnouncementsPage: React.FC = () => {
+const StudentAnnouncementsPage = () => {
   const theme = useTheme();
   const {
     announcements,

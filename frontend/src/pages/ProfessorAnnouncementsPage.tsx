@@ -9,7 +9,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import React, { useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AnnouncementCard from "../components/AnnouncementCard";
 import Spinner from "../components/Spinner";
@@ -17,7 +17,7 @@ import { useAnnouncement } from "../hooks/useAnnouncement";
 import { useAuth } from "../hooks/useAuth";
 import { UserRole } from "../types/Auth";
 
-const ProfessorAnnouncementsPage: React.FC = () => {
+const ProfessorAnnouncementsPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -76,7 +76,15 @@ const ProfessorAnnouncementsPage: React.FC = () => {
           variant="contained"
           color="primary"
           startIcon={<AddCircleOutlineIcon />}
-          onClick={() => navigate("/professor/announcements/new")}
+          onClick={() =>
+            navigate(
+              `${
+                user?.role === UserRole.professor
+                  ? "/professor/announcements/new"
+                  : "/manager/announcements/new"
+              }`
+            )
+          }
           sx={{ borderRadius: 2 }}
         >
           Create New Announcement

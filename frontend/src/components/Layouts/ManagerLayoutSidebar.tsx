@@ -1,5 +1,6 @@
 import AnnouncementIcon from "@mui/icons-material/Announcement";
 import MenuIcon from "@mui/icons-material/Menu";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import QuizIcon from "@mui/icons-material/Quiz";
 import SchoolIcon from "@mui/icons-material/School";
 import {
@@ -17,7 +18,7 @@ import Sidebar from "./Sidebar";
 
 const drawerWidth = 240;
 
-const ProfessorLayoutSidbar = () => {
+const ManagerLayoutSidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, logout } = useAuth();
 
@@ -32,19 +33,24 @@ const ProfessorLayoutSidbar = () => {
     }
   };
 
-  const professorMenuItems = [
-    { text: "My Courses", icon: <SchoolIcon />, path: "/professor/courses" },
-    { text: "Quizzes", icon: <QuizIcon />, path: "/professor/quizzes" },
+  const managerMenuItems = [
+    {
+      text: "Add Users",
+      icon: <PersonAddAltIcon />,
+      path: "/manager/add-users",
+    },
+    { text: "Courses", icon: <SchoolIcon />, path: "/manager/courses" },
+    { text: "Quizzes", icon: <QuizIcon />, path: "/manager/quizzes" },
     {
       text: "Announcements",
       icon: <AnnouncementIcon />,
-      path: "/professor/announcements",
+      path: "/manager/announcements",
     },
   ];
 
   const drawer = (
     <Sidebar
-      navItems={professorMenuItems}
+      navItems={managerMenuItems}
       user={user}
       onLogout={handleLogout}
       onToggleDrawer={handleDrawerToggle}
@@ -130,4 +136,4 @@ const ProfessorLayoutSidbar = () => {
   );
 };
 
-export default ProfessorLayoutSidbar;
+export default ManagerLayoutSidebar;

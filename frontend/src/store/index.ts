@@ -5,6 +5,7 @@ import courseSlice from "./slices/courseSlice";
 import gradeSlice from "./slices/gradeSlice";
 import quizSlice from "./slices/quizSlice";
 import semesterSlice from "./slices/semesterSlice";
+import userSlice from './slices/userSlice';
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
     quiz: quizSlice,
     announcement: announcementSlice,
     grades: gradeSlice,
-    courses: courseSlice
+    courses: courseSlice,
+    users: userSlice
   },
 });
 

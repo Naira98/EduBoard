@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useCallback } from "react";
+import { useState, useLayoutEffect, useCallback } from "react";
 import {
   Box,
   Typography,
@@ -29,7 +29,7 @@ import type { Question } from "../types/Quiz";
 import type { Semester } from "../types/Semester";
 import { toast } from "react-toastify";
 
-const CreateQuizPage: React.FC = () => {
+const CreateQuizPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const {

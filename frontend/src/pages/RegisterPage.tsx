@@ -7,6 +7,7 @@ import Spinner from "../components/Spinner";
 import { getRegisterConfig } from "../config/formConfigs";
 import { useAuth } from "../hooks/useAuth";
 import { useSemester } from "../hooks/useSemester";
+import { UserRole } from "../types/Auth";
 import type { FormValues } from "../types/formTypes";
 
 const RegisterPage = () => {
@@ -33,7 +34,14 @@ const RegisterPage = () => {
       if (!username || !email || !password)
         throw new Error("Username, email, and password are required");
 
-      const result = await register({ username, email, password, semesterId });
+      const result = await register({
+        username,
+        email,
+        password,
+        semesterId,
+        role: UserRole.student,
+        courseIds: null,
+      });
       if (result.type.endsWith("rejected")) {
         const error = result.payload as { message: string };
         toast(error.message, { type: "error" });

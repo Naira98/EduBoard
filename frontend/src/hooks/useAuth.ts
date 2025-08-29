@@ -8,6 +8,7 @@ import {
   logoutUser,
   registerUser,
 } from "../store/slices/authSlice";
+import type { UserRole } from "../types/Auth";
 
 export const useAuth = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,6 +29,8 @@ export const useAuth = () => {
       email: string;
       password: string;
       semesterId: string;
+      role: UserRole;
+      courseIds: null
     }) => {
       return dispatch(registerUser(userData));
     },

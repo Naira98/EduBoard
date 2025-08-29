@@ -17,8 +17,10 @@ export interface LoginCredentials {
 export interface RegisterData {
   username: string;
   email: string;
+  role: UserRole;
   password: string;
   semesterId: string;
+  courseIds: null;
 }
 export interface TokenPayload {
   userId: string;

@@ -78,7 +78,15 @@ const ProfessorQuizzesPage = () => {
           variant="contained"
           color="primary"
           startIcon={<AddCircleOutlineIcon />}
-          onClick={() => navigate("/professor/quizzes/new")}
+          onClick={() =>
+            navigate(
+              `${
+                user?.role === UserRole.professor
+                  ? "/professor/quizzes/new"
+                  : "/manager/quizzes/new"
+              }`
+            )
+          }
           sx={{ borderRadius: 2 }}
         >
           Create New Quiz

@@ -1,63 +1,14 @@
-import { useLayoutEffect } from "react";
-import { Box, Typography, Alert, Container, Paper } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
+import { Alert, Box, Container, Paper, Typography } from "@mui/material";
+import { useLayoutEffect } from "react";
+import CourseCard from "../components/CourseCard";
+import Spinner from "../components/Spinner";
 import { useAuth } from "../hooks/useAuth";
 import { useCourse } from "../hooks/useCourse";
-import Spinner from "../components/Spinner";
+import { UserRole } from "../types/Auth";
 import type { Course } from "../types/Course";
 
-interface CourseCardProps {
-  course: Course;
-}
-
-const CourseCard = ({ course }: CourseCardProps) => {
-  const semesterName =
-    typeof course.semester === "string"
-      ? course.semester
-      : course.semester?.name || "N/A";
-  const professorNames = Array.isArray(course.professors)
-    ? course.professors
-        .map((p) => (typeof p === "string" ? p : p.username))
-        .join(", ")
-    : "N/A";
-
-  return (
-    <Paper
-      elevation={3}
-      sx={{
-        p: 2,
-        borderRadius: 2,
-        height: "100%",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <Typography
-        variant="h6"
-        component="div"
-        color="primary"
-        sx={{ fontWeight: "bold", mb: 1 }}
-      >
-        {course.name}
-      </Typography>
-      <Typography variant="body2" color="text.secondary">
-        <Box component="span" sx={{ fontWeight: "medium" }}>
-          Semester:
-        </Box>{" "}
-        {semesterName}
-      </Typography>{" "}
-      <Typography variant="body2" color="text.secondary">
-        <Box component="span" sx={{ fontWeight: "medium" }}>
-          Professors:
-        </Box>{" "}
-        {professorNames}
-      </Typography>
-    </Paper>
-  );
-};
-
-const ProfessorCoursesPage: React.FC = () => {
+const ProfessorCoursesPage = () => {
   const { user } = useAuth();
   const {
     courses,
@@ -92,16 +43,6 @@ const ProfessorCoursesPage: React.FC = () => {
     );
   }
 
-  if (!user || user.role !== "professor") {
-    return (
-      <Container maxWidth="lg" sx={{ mt: 4 }}>
-        <Alert severity="warning">
-          Access Denied: You must be logged in as a professor to view this page.
-        </Alert>
-      </Container>
-    );
-  }
-
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Typography
@@ -110,7 +51,7 @@ const ProfessorCoursesPage: React.FC = () => {
         gutterBottom
         sx={{ fontWeight: "bold", color: "primary.main", mb: 4 }}
       >
-        My Courses
+        {user?.role == UserRole.manager ? "All Courses" : "My Courses"}
         <SchoolIcon
           sx={{ ml: 1, verticalAlign: "middle", fontSize: "inherit" }}
         />
