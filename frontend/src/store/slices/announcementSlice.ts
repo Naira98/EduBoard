@@ -22,7 +22,7 @@ interface AnnouncementState {
 const initialState: AnnouncementState = {
   announcements: [],
   currentAnnouncement: null,
-  loading: false,
+  loading: true,
   error: null,
 };
 

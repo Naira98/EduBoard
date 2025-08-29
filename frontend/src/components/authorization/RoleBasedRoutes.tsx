@@ -25,7 +25,7 @@ export default function RoleBasedRoute({ allowedRoles }: RoleBasedRouteProps) {
 
   if (loading) return <Spinner />;
 
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (!isAuthenticated) return <Navigate to="/auth/login" replace />;
 
   if (!allowedRoles.includes(user!.role)) {
     return <Navigate to="/unauthorized" replace />;

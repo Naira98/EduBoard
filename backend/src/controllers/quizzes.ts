@@ -33,10 +33,7 @@ export const createQuizController = asyncHandler(async (req, res) => {
   if (!course) {
     return res.status(404).json({ message: "Course not found." });
   }
-  if (
-    userRole === UserRole.Professor &&
-    course.professor.toString() !== userId?.toString()
-  ) {
+  if (!course.professors.some((professorId) => professorId.equals(userId))) {
     return res
       .status(403)
       .json({ message: "Forbidden: You are not assigned to this course." });
@@ -117,7 +114,7 @@ export const getAllQuizzesController = asyncHandler(async (req, res) => {
 
     case UserRole.Professor:
       const professorCourses: { _id: ObjectId }[] = await Course.find({
-        professor: userId,
+        professors: userId,
       }).select("_id");
       const professorCourseIds = professorCourses.map((course) =>
         course._id.toString()
@@ -170,11 +167,11 @@ export const getQuizByIdController = asyncHandler(async (req, res) => {
   const userRole = req.user?.role;
 
   let quizBuilder = Quiz.findById(id)
-    .populate("course", "name professor")
+    .populate("course", "name professors")
     .populate("semester", "name")
     .populate("creator", "username email role");
 
-  if (userRole == UserRole.Student)
+  if (userRole === UserRole.Student)
     quizBuilder = quizBuilder.select("-questions.correctAnswer");
 
   const quiz = await quizBuilder;
@@ -196,9 +193,13 @@ export const getQuizByIdController = asyncHandler(async (req, res) => {
       });
     }
   } else if (userRole === UserRole.Professor) {
-    if (quiz.creator.toString() !== userId?.toString()) {
+    const quizCourse = await Course.findById(quiz.course._id);
+    if (
+      !quizCourse ||
+      !quizCourse.professors.some((pId) => pId.equals(userId))
+    ) {
       return res.status(403).json({
-        message: "Forbidden: You are not the professor for this quiz's course.",
+        message: "Forbidden: You are not a professor for this quiz's course.",
       });
     }
   }

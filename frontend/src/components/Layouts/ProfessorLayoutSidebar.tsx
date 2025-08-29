@@ -1,15 +1,15 @@
 import AnnouncementIcon from "@mui/icons-material/Announcement";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import GradeIcon from "@mui/icons-material/Grade";
 import MenuIcon from "@mui/icons-material/Menu";
 import QuizIcon from "@mui/icons-material/Quiz";
+import SchoolIcon from "@mui/icons-material/School";
 import {
-  AppBar,
-  Box,
-  CssBaseline,
-  Drawer,
-  IconButton,
-  Toolbar
+    AppBar,
+    Box,
+    CssBaseline,
+    Drawer,
+    IconButton,
+    Toolbar,
 } from "@mui/material";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
@@ -18,7 +18,7 @@ import Sidebar from "./Sidebar";
 
 const drawerWidth = 240;
 
-const AppLayoutSidebar = () => {
+const ProfessorLayoutSidbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, logout } = useAuth();
 
@@ -33,20 +33,20 @@ const AppLayoutSidebar = () => {
     }
   };
 
-  const menuItems = [
-    { text: "Dashboard", icon: <DashboardIcon />, path: "/" },
-    { text: "Quizzes", icon: <QuizIcon />, path: "/quizzes" },
+  const professorMenuItems = [
+    { text: "My Courses", icon: <SchoolIcon />, path: "/professor/courses" },
+    { text: "Manage Quizzes", icon: <QuizIcon />, path: "/professor/quizzes" },
     {
-      text: "Announcements",
+      text: "Manage Announcements",
       icon: <AnnouncementIcon />,
-      path: "/announcements",
+      path: "/professor/announcements",
     },
-    { text: "My Grades", icon: <GradeIcon />, path: "/my-grades" },
+    { text: "Student Grades", icon: <GradeIcon />, path: "/professor/grades" },
   ];
 
   const drawer = (
     <Sidebar
-      navItems={menuItems}
+      navItems={professorMenuItems}
       user={user}
       onLogout={handleLogout}
       onToggleDrawer={handleDrawerToggle}
@@ -132,4 +132,4 @@ const AppLayoutSidebar = () => {
   );
 };
 
-export default AppLayoutSidebar;
+export default ProfessorLayoutSidbar;

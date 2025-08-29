@@ -40,7 +40,7 @@ const RegisterPage = () => {
         setLocalError(error.message);
       } else {
         setLocalError("");
-        navigate("/login");
+        navigate("/auth/login");
       }
     } catch (err: unknown) {
       setLocalError(err instanceof Error ? err.message : "Registration failed");

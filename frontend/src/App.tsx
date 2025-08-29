@@ -5,13 +5,18 @@ import { ToastContainer } from "react-toastify";
 import "./App.css";
 import AppLayoutNavbar from "./components/Layouts/AppLayoutNavbar";
 import AppLayoutSidebar from "./components/Layouts/AppLayoutSidebar";
+import ProfessorLayoutSidbar from "./components/Layouts/ProfessorLayoutSidebar";
 import GuestOnlyRoute from "./components/authorization/GusetOnlyRoutes";
 import RoleBasedRoute from "./components/authorization/RoleBasedRoutes";
 import AnnouncementDetailPage from "./pages/AnnouncementDetailPage";
+import CreateQuizPage from "./pages/CreateQuizPage";
 import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 import MyGradesPage from "./pages/MyGradesPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import ProfessorCoursesPage from "./pages/ProfessorCoursesPage";
+import ProfessorQuizSubmissionsPage from "./pages/ProfessorQuizSubmissionPage";
+import ProfessorQuizzesPage from "./pages/ProfessorQuizzesPage";
 import QuizPage from "./pages/QuizPage";
 import RegisterPage from "./pages/RegisterPage";
 import StudentAnnouncementsPage from "./pages/StudentAnnouncementsPage";
@@ -34,10 +39,10 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           {/* Guest-Only routes */}
-          <Route element={<GuestOnlyRoute />}>
+          <Route path="/auth" element={<GuestOnlyRoute />}>
             <Route element={<AppLayoutNavbar />}>
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/login" element={<LoginPage />} />
+              <Route path="/auth/register" element={<RegisterPage />} />
+              <Route path="/auth/login" element={<LoginPage />} />
             </Route>
           </Route>
 
@@ -52,14 +57,38 @@ const App = () => {
               <Route path="/quiz/start/:quizId" element={<QuizPage />} />
               <Route path="/my-grades" element={<MyGradesPage />} />
               <Route path="/quizzes" element={<StudentQuizzesPage />} />
-              <Route path="/announcements" element={<StudentAnnouncementsPage />} />
+              <Route
+                path="/announcements"
+                element={<StudentAnnouncementsPage />}
+              />
             </Route>
           </Route>
 
           {/* Professors-Only routes */}
           <Route
             element={<RoleBasedRoute allowedRoles={[UserRole.professor]} />}
-          ></Route>
+          >
+            <Route element={<ProfessorLayoutSidbar />}>
+              <Route
+                path="/professor/courses"
+                element={<ProfessorCoursesPage />}
+              />
+              <Route
+                path="/professor/quizzes"
+                element={<ProfessorQuizzesPage />}
+              />
+              <Route
+                path="/professor/quizzes/new"
+                element={<CreateQuizPage />}
+              />
+              <Route
+                path="/professor/quizzes/:quizId/submissions"
+                element={<ProfessorQuizSubmissionsPage />}
+              />
+              {/* <Route path="/professor/announcements" element={} />
+              <Route path="/professor/grades" element={} /> */}
+            </Route>
+          </Route>
 
           {/* Managers-Only routes */}
           <Route

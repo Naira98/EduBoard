@@ -11,6 +11,7 @@ import QuizCard from "../components/QuizCard";
 import Spinner from "../components/Spinner";
 import { useGrade } from "../hooks/useGrade";
 import { useQuiz } from "../hooks/useQuiz";
+import { UserRole } from "../types/Auth";
 import type { Grade } from "../types/Grade";
 
 const StudentQuizzesPage = () => {
@@ -107,7 +108,11 @@ const StudentQuizzesPage = () => {
                   display: "flex",
                 }}
               >
-                <QuizCard quiz={quiz} studentGrade={studentGrade} />
+                <QuizCard
+                  quiz={quiz}
+                  studentGrade={studentGrade}
+                  viewerRole={UserRole.student}
+                />
               </Box>
             );
           })}

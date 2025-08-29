@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -6,12 +7,12 @@ import AuthForm from "../components/AuthForm";
 import { getLoginConfig } from "../config/formConfigs";
 import { useAuth } from "../hooks/useAuth";
 import type { FormValues } from "../types/formTypes";
-import i18next from "i18next";
+import { getHomePath } from "../utils/getHomePath";
 
 const LoginPage = () => {
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { user, login } = useAuth();
 
   const { t } = useTranslation();
   const loginConfig = getLoginConfig(t);
@@ -29,7 +30,9 @@ const LoginPage = () => {
       } else {
         setError("");
         i18next.changeLanguage("en");
-        navigate("/");
+        if (user?.role) {
+          navigate(getHomePath(user.role));
+        }
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Login failed");

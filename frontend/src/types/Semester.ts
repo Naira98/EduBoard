@@ -1,4 +1,4 @@
-export interface ISemester {
+export interface Semester {
   _id: string;
   name: string;
 }

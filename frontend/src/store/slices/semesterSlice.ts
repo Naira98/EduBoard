@@ -5,7 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import type {
   CreateSemesterData,
-  ISemester,
+  Semester,
   UpdateSemesterData,
 } from "../../types/Semester";
 import apiReq from "../../utils/apiReq";
@@ -13,18 +13,18 @@ import { getErrorMessage } from "../../utils/getErrorMessage";
 import publicApiReq from "../../utils/publicApiReq";
 
 interface SemesterState {
-  semesters: ISemester[];
+  semesters: Semester[];
   loading: boolean;
   error: string | null;
 }
 
 const initialState: SemesterState = {
   semesters: [],
-  loading: false,
+  loading: true,
   error: null,
 };
 
-export const fetchSemesters = createAsyncThunk<ISemester[], void>(
+export const fetchSemesters = createAsyncThunk<Semester[], void>(
   "semester/fetchSemesters",
   async (_, { rejectWithValue }) => {
     try {
@@ -35,7 +35,7 @@ export const fetchSemesters = createAsyncThunk<ISemester[], void>(
         return rejectWithValue(getErrorMessage(errorData));
       }
 
-      const data: ISemester[] = await response.json();
+      const data: Semester[] = await response.json();
       return data;
     } catch (error) {
       return rejectWithValue(getErrorMessage(error));
@@ -44,7 +44,7 @@ export const fetchSemesters = createAsyncThunk<ISemester[], void>(
 );
 
 export const createSemester = createAsyncThunk<
-  ISemester,
+  Semester,
   CreateSemesterData,
   { rejectValue: string }
 >(
@@ -58,7 +58,7 @@ export const createSemester = createAsyncThunk<
         return rejectWithValue(getErrorMessage(errorData));
       }
 
-      const data: { message: string; semester: ISemester } =
+      const data: { message: string; semester: Semester } =
         await response.json();
       return data.semester;
     } catch (error) {
@@ -67,7 +67,7 @@ export const createSemester = createAsyncThunk<
   }
 );
 
-export const updateSemester = createAsyncThunk<ISemester, UpdateSemesterData>(
+export const updateSemester = createAsyncThunk<Semester, UpdateSemesterData>(
   "semester/updateSemester",
   async ({ id, name }: UpdateSemesterData, { rejectWithValue }) => {
     try {
@@ -78,7 +78,7 @@ export const updateSemester = createAsyncThunk<ISemester, UpdateSemesterData>(
         return rejectWithValue(getErrorMessage(errorData));
       }
 
-      const data: { message: string; semester: ISemester } =
+      const data: { message: string; semester: Semester } =
         await response.json();
       return data.semester;
     } catch (error) {
@@ -94,7 +94,7 @@ const semesterSlice = createSlice({
     clearSemesterError: (state) => {
       state.error = null;
     },
-    setSemesters: (state, action: PayloadAction<ISemester[]>) => {
+    setSemesters: (state, action: PayloadAction<Semester[]>) => {
       state.semesters = action.payload;
       state.loading = false;
       state.error = null;
@@ -108,7 +108,7 @@ const semesterSlice = createSlice({
       })
       .addCase(
         fetchSemesters.fulfilled,
-        (state, action: PayloadAction<ISemester[]>) => {
+        (state, action: PayloadAction<Semester[]>) => {
           state.loading = false;
           state.semesters = action.payload;
           state.error = null;
@@ -125,7 +125,7 @@ const semesterSlice = createSlice({
       })
       .addCase(
         createSemester.fulfilled,
-        (state, action: PayloadAction<ISemester>) => {
+        (state, action: PayloadAction<Semester>) => {
           state.loading = false;
           state.semesters.push(action.payload);
           state.error = null;
@@ -142,7 +142,7 @@ const semesterSlice = createSlice({
       })
       .addCase(
         updateSemester.fulfilled,
-        (state, action: PayloadAction<ISemester>) => {
+        (state, action: PayloadAction<Semester>) => {
           state.loading = false;
           const index = state.semesters.findIndex(
             (s) => s._id === action.payload._id
@@ -157,7 +157,7 @@ const semesterSlice = createSlice({
         state.loading = false;
         state.error =
           (action.payload as string) || "Failed to update semester.";
-      })
+      });
   },
 });
 

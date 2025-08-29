@@ -5,7 +5,7 @@ export const getLoginConfig = (t: TFunction): FormConfig => ({
   title: t("signInTitle"),
   submitButtonText: t("signInButtonText"),
   linkText: t("signUpLinkText"),
-  linkPath: "/register",
+  linkPath: "/auth/register",
   linkDescription: t("signUpLinkDescription"),
   fields: [
     {
@@ -45,7 +45,7 @@ export const getRegisterConfig = (
   title: t("createAccountTitle"),
   submitButtonText: t("signUpButtonText"),
   linkText: t("signInLinkText"),
-  linkPath: "/login",
+  linkPath: "/auth/login",
   linkDescription: t("signInLinkDescription"),
   fields: [
     {

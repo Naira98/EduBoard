@@ -6,6 +6,7 @@ import {
 import type {
   GetMyGradesParams,
   Grade,
+  GradeSubmission,
   SubmitQuizData,
 } from "../../types/Grade";
 import apiReq from "../../utils/apiReq";
@@ -13,7 +14,7 @@ import { getErrorMessage } from "../../utils/getErrorMessage";
 
 interface GradeState {
   myGrades: Grade[];
-  quizGrades: Grade[];
+  quizGrades: GradeSubmission[];
   currentGrade: Grade | null;
   loading: boolean;
   error: string | null;
@@ -71,7 +72,7 @@ export const fetchMyGrades = createAsyncThunk<
 });
 
 export const fetchQuizGrades = createAsyncThunk<
-  Grade[],
+  GradeSubmission[],
   string,
   { rejectValue: string }
 >("grades/fetchQuizGrades", async (quizId, { rejectWithValue }) => {
@@ -83,7 +84,7 @@ export const fetchQuizGrades = createAsyncThunk<
         errorData.message || "Failed to fetch quiz grades."
       );
     }
-    const data: Grade[] = await response.json();
+    const data: GradeSubmission[] = await response.json();
     return data;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error));
@@ -153,7 +154,7 @@ const gradesSlice = createSlice({
       })
       .addCase(
         fetchQuizGrades.fulfilled,
-        (state, action: PayloadAction<Grade[]>) => {
+        (state, action: PayloadAction<GradeSubmission[]>) => {
           state.loading = false;
           state.quizGrades = action.payload;
         }

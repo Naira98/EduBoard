@@ -16,6 +16,16 @@ export interface Grade {
   submittedAt: string;
 }
 
+export interface GradeSubmission {
+  _id: string;
+  student: { username: string; email: string };
+  quiz: string;
+  score: number;
+  totalQuestions: number;
+  submittedAnswers: ISubmittedAnswer[];
+  submittedAt: string;
+}
+
 interface IStudentQuizSubmission {
   questionText: string;
   selectedOption: string;

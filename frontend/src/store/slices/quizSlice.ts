@@ -22,7 +22,7 @@ interface QuizState {
 const initialState: QuizState = {
   quizzes: [],
   currentQuiz: null,
-  loading: false,
+  loading: true,
   error: null,
 };
 

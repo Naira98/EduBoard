@@ -10,6 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { UserRole } from "../types/Auth";
 import type { Grade } from "../types/Grade";
 import type { Quiz } from "../types/Quiz";
 import { formatDate } from "../utils/formatDate";
@@ -17,9 +18,10 @@ import { formatDate } from "../utils/formatDate";
 interface QuizCardProps {
   quiz: Quiz;
   studentGrade?: Grade;
+  viewerRole?: UserRole;
 }
 
-const QuizCard = ({ quiz, studentGrade }: QuizCardProps) => {
+const QuizCard = ({ quiz, studentGrade, viewerRole }: QuizCardProps) => {
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -33,6 +35,13 @@ const QuizCard = ({ quiz, studentGrade }: QuizCardProps) => {
       navigate(`/quiz/start/${quiz._id}`);
     }
   };
+
+  const handleViewSubmissionsClick = () => {
+    navigate(`/professor/quizzes/${quiz._id}/submissions`);
+  };
+
+  const showStudentActionButton =
+    viewerRole === UserRole.student || viewerRole === undefined;
 
   return (
     <Card
@@ -104,27 +113,40 @@ const QuizCard = ({ quiz, studentGrade }: QuizCardProps) => {
         )}
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}>
-        <Button
-          size="small"
-          variant="contained"
-          onClick={handleActionButtonClick}
-          startIcon={hasSubmitted ? <CheckCircleIcon /> : <PlayArrowIcon />}
-          disabled={hasSubmitted || isDueDatePassed}
-          sx={{
-            borderRadius: 2,
-            "&.Mui-disabled": {
-              bgcolor: theme.palette.grey[400],
-              color: theme.palette.grey[600],
-              cursor: "not-allowed",
-            },
-          }}
-        >
-          {hasSubmitted
-            ? "Quiz Submitted"
-            : isDueDatePassed
-            ? "Past Due"
-            : "Start Quiz"}
-        </Button>
+        {showStudentActionButton ? (
+          <Button
+            size="small"
+            variant="contained"
+            onClick={handleActionButtonClick}
+            startIcon={hasSubmitted ? <CheckCircleIcon /> : <PlayArrowIcon />}
+            disabled={hasSubmitted || isDueDatePassed}
+            sx={{
+              borderRadius: 2,
+              "&.Mui-disabled": {
+                bgcolor: theme.palette.grey[400],
+                color: theme.palette.grey[600],
+                cursor: "not-allowed",
+              },
+            }}
+          >
+            {hasSubmitted
+              ? "Quiz Submitted"
+              : isDueDatePassed
+              ? "Past Due"
+              : "Start Quiz"}
+          </Button>
+        ) : (
+          <Button
+            size="small"
+            variant="contained"
+            onClick={handleViewSubmissionsClick}
+            sx={{
+              borderRadius: 2,
+            }}
+          >
+            View Submissions
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

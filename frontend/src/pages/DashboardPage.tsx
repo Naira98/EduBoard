@@ -9,6 +9,7 @@ import Spinner from "../components/Spinner";
 import { useAnnouncement } from "../hooks/useAnnouncement";
 import { useGrade } from "../hooks/useGrade";
 import { useQuiz } from "../hooks/useQuiz";
+import { UserRole } from "../types/Auth";
 
 const DashboardPage = () => {
   const {
@@ -217,7 +218,11 @@ const DashboardPage = () => {
             ) : (
               <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
                 {limitedUpcomingQuizzes.map((quiz) => (
-                  <QuizCard key={quiz._id} quiz={quiz} />
+                  <QuizCard
+                    key={quiz._id}
+                    quiz={quiz}
+                    viewerRole={UserRole.student}
+                  />
                 ))}
               </Box>
             )}
